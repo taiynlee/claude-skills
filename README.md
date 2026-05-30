@@ -1,12 +1,13 @@
 # claude-skills
 
-Claude Code 專用技能集合與環境安裝腳本。目前收錄 **caveman** 溝通模式技能，大幅壓縮 token 用量，同時保留完整技術精確度。
+Claude Code 專用技能集合與環境安裝腳本。
 
 ## 內容
 
 | 檔案 | 類型 | 說明 |
 |------|------|------|
 | `skills/caveman.md` | Skill | Ultra-compressed 溝通模式，節省 ~75% token |
+| `skills/find-skills.md` | Skill | 搜尋、安裝、管理 AI Agent Skills |
 | `setup.sh` | 腳本 | Claude Code 環境一鍵安裝 |
 
 ---
@@ -67,6 +68,56 @@ normal mode       # 同上
 
 ---
 
+## skills/find-skills
+
+搜尋、安裝、管理 AI Agent Skills 生態系（來源：[vercel-labs/skills](https://github.com/vercel-labs/skills)）。
+
+**觸發時機：** 使用者說「find a skill for X」、「is there a skill for X」、「how do I do X」、或想擴充 Agent 功能時。
+
+### 核心功能
+
+使用 `npx skills` CLI 管理跨 Agent 的 Skills 套件：
+
+```bash
+# 搜尋 skills
+npx skills find [查詢關鍵字]
+
+# 安裝 skill
+npx skills add <owner/repo> -g -y
+
+# 檢查更新
+npx skills check
+
+# 更新全部
+npx skills update
+```
+
+### 推薦流程
+
+1. 先查 [skills.sh leaderboard](https://skills.sh/) — 看有無高安裝量的現成 skill
+2. 若無，執行 `npx skills find [關鍵字]` 搜尋
+3. 驗證品質：1K+ 安裝量、來源可信（vercel-labs / anthropics / microsoft）
+4. 提供安裝指令給使用者
+
+### 常用分類關鍵字
+
+| 類別 | 關鍵字 |
+|------|--------|
+| 前端 | `react`, `nextjs`, `typescript`, `tailwind` |
+| 測試 | `testing`, `jest`, `playwright` |
+| DevOps | `deploy`, `docker`, `kubernetes` |
+| 文件 | `docs`, `readme`, `changelog` |
+| 程式碼品質 | `review`, `lint`, `refactor` |
+
+### 找不到時
+
+直接用 Agent 原有能力處理，或建議使用者自建：
+```bash
+npx skills init my-skill-name
+```
+
+---
+
 ## setup.sh
 
 Claude Code 環境一鍵安裝腳本。
@@ -112,11 +163,13 @@ bash setup.sh
 ## 安裝 Skills
 
 ```bash
-# 安裝 caveman skill 到 Claude Code
-claude plugins add taiynlee/claude-skills
-
-# 或使用 npx skills
+# 安裝全部 skills 到 Claude Code
 npx skills add taiynlee/claude-skills -a claude-code
+
+# 或用 claude plugins
+claude plugins add taiynlee/claude-skills
 ```
 
-安裝後，在 Claude Code 對話中輸入 `/caveman` 即可啟用。
+安裝後：
+- `/caveman` 啟用壓縮模式
+- `find a skill for X` 自動觸發 find-skills
