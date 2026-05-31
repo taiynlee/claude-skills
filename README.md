@@ -8,6 +8,7 @@ Claude Code 專用技能集合與環境安裝腳本。
 |------|------|------|
 | `skills/caveman.md` | Skill | Ultra-compressed 溝通模式，節省 ~75% token |
 | `skills/find-skills.md` | Skill | 搜尋、安裝、管理 AI Agent Skills |
+| `skills/pollinations.md` | Skill | 免費 AI 圖片生成，無需 API key（Pollinations.ai）|
 | `setup.sh` | 腳本 | Claude Code 環境一鍵安裝 |
 
 ---
@@ -173,3 +174,41 @@ claude plugins add taiynlee/claude-skills
 安裝後：
 - `/caveman` 啟用壓縮模式
 - `find a skill for X` 自動觸發 find-skills
+
+---
+
+## skills/pollinations
+
+免費 AI 圖片生成，使用 [Pollinations.ai](https://pollinations.ai) API。無需帳號、無需 API key、無限制生成。
+
+**觸發時機：** 生成圖片、AI 作圖、text-to-image、免費圖片 AI。
+
+### 快速使用（PowerShell）
+
+```powershell
+$prompt = "your description here"
+$encoded = [System.Uri]::EscapeDataString($prompt)
+$url = "https://image.pollinations.ai/prompt/$encoded?width=1280&height=720&model=flux&seed=42&nologo=true"
+Invoke-WebRequest -Uri $url -OutFile "$env:USERPROFILE\Downloads\output.jpg" -TimeoutSec 120
+```
+
+### 常用模型
+
+| 模型 | 特性 |
+|------|------|
+| `flux`（預設）| 高品質通用 |
+| `flux-realism` | 寫實風格 |
+| `flux-anime` | 動漫風格 |
+| `turbo` | 速度優先 |
+| `sana` | 新一代模型 |
+| `kontext` | 圖生圖 |
+
+### 常用解析度
+
+| 用途 | 寬 x 高 |
+|------|---------|
+| 橫幅 16:9 | 1280 x 720 |
+| 方形 | 1024 x 1024 |
+| 手機直幅 | 720 x 1280 |
+
+生成時間 10–30 秒，免費無限制。
